@@ -1,8 +1,10 @@
-from flask import Flask, redirect, render_template_string, url_for, request
+from flask import Flask, redirect, render_template_string, url_for, request, flash
 import os
 
 
 app = Flask(__name__)
+
+app.config['SECRET_KEY'] = 'abc'
 
 @app.route('/')
 def index():
@@ -17,40 +19,37 @@ def index():
 </head>
 
 <body>
+	{% with messages = get_flashed_messages() %}
+	  {% if messages %}
+	    <ul>
+	    {% for message in messages %}
+	      <li>{{ message }}</li>
+	    {% endfor %}
+	    </ul>
+	  {% endif %}
+	{% endwith %}
 	<a href="/">home</a>
 	<br>
 	<a href="/redirect">redirect to home</a>
 	<br>
-	<a href="/absolute-redirect">absolute redirect to home</a>
+	<a href="/redirect?external=True">absolute redirect to home</a>
 	<br>
-	<a href="/absolute-redirect-https">absolute https redirect to home</a>
+	<a href="/redirect?external=True&scheme=https">absolute https redirect to home</a>
 </body>
 
 </html>
 """)
 
+@app.before_request
+def before():
+	print 'request', request.url
+	flash('request ' + request.url)
+
 @app.route('/redirect')
 def other():
-	print 'request url', request.url
-	url = url_for('index')
-	print 'url', url
-	response = redirect(url)
-	print response.headers
-	return response
-
-@app.route('/absolute-redirect')
-def another():
-	print 'request url', request.url
-	url = url_for('index', _external=True)
-	print 'url', url
-	response = redirect(url)
-	print response.headers
-	return response
-
-@app.route('/absolute-redirect-https')
-def yet_another():
-	print 'request url', request.url
-	url = url_for('index', _external=True, _scheme='https')
+	external = bool(request.args.get('external', False))
+	scheme = request.args.get('scheme')
+	url = url_for('index', _external=external, _scheme=scheme)
 	print 'url', url
 	response = redirect(url)
 	print response.headers
