@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template_string
+from flask import Flask, redirect, render_template_string, url_for
 import os
 
 
@@ -20,7 +20,9 @@ def other():
 
 @app.route('/absolute-redirect')
 def another():
-	return redirect('https://https-redirect-test.herokuapp.com')
+	url = url_for('index', _external=True)
+	print 'url', url
+	return redirect(url)
 
 
 if __name__ == '__main__':
