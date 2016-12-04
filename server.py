@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template_string, url_for
+from flask import Flask, redirect, render_template_string, url_for, request
 import os
 
 
@@ -31,6 +31,7 @@ def index():
 
 @app.route('/redirect')
 def other():
+	print 'request url', request.url
 	url = url_for('index')
 	print 'url', url
 	response = redirect(url)
@@ -39,6 +40,7 @@ def other():
 
 @app.route('/absolute-redirect')
 def another():
+	print 'request url', request.url
 	url = url_for('index', _external=True)
 	print 'url', url
 	response = redirect(url)
@@ -47,6 +49,7 @@ def another():
 
 @app.route('/absolute-redirect-https')
 def yet_another():
+	print 'request url', request.url
 	url = url_for('index', _external=True, _scheme='https')
 	print 'url', url
 	response = redirect(url)
