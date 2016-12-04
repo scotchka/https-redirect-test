@@ -33,23 +33,28 @@ def index():
 def other():
 	url = url_for('index')
 	print 'url', url
-	return redirect('/')
+	response = redirect(url)
+	print response.headers
+	return response
 
 @app.route('/absolute-redirect')
 def another():
 	url = url_for('index', _external=True)
 	print 'url', url
-	return redirect(url)
+	response = redirect(url)
+	print response.headers
+	return response
 
 @app.route('/absolute-redirect-https')
 def yet_another():
 	url = url_for('index', _external=True, _scheme='https')
 	print 'url', url
-	return redirect(url)
-
+	response = redirect(url)
+	print response.headers
+	return response
 
 if __name__ == '__main__':
-	# context = ('ssl.cert', 'ssl.key')
-	PORT = int(os.environ.get('PORT', 5000))
+	PORT = int(os.environ.get('PORT', 5003))
 	app.run(debug=True, host='0.0.0.0', port=PORT)
+	# app.run(debug=True, host='0.0.0.0', port=PORT, ssl_context=('ssl.cert', 'ssl.key'))
 
