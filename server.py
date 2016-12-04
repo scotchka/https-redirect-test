@@ -7,7 +7,8 @@ app = Flask(__name__)
 @app.route('/')
 def index():
 	return render_template_string("""
-		<a href="/redirect">link</a>
+		<a href="/">home</a>
+		<a href="/redirect">redirect to home</a>
 		""")
 
 @app.route('/redirect')
