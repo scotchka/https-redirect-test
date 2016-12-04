@@ -2,4 +2,4 @@
 
 [demo](https://https-redirect-test.herokuapp.com/)
 
-![screen](/screen_shot.png)
+![screen](https://raw.githubusercontent.com/scotchka/https-redirect-test/master/screen_shot.png)
