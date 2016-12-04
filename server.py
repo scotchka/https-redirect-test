@@ -20,7 +20,7 @@ def other():
 
 @app.route('/absolute-redirect')
 def another():
-	url = url_for('index', _external=True)
+	url = url_for('index', _external=True, _scheme='https')
 	print 'url', url
 	return redirect(url)
 
